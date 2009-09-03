@@ -3,6 +3,12 @@
   <groupId>retrofitting-tests</groupId>
   <artifactId>retrofitting-tests</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  
+  
+  <properties>
+    <powermock.version>1.2.5</powermock.version>
+  </properties>
+  
   <dependencies>
   	<dependency>
   		<groupId>jms</groupId>
@@ -12,7 +18,54 @@
   	<dependency>
   		<groupId>log4j</groupId>
   		<artifactId>log4j</artifactId>
-  		<version>1.2.15</version>
+  		<version>1.2.14</version>
+  	</dependency>
+  	<dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-core</artifactId>
+      <version>${powermock.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.powermock.api</groupId>
+      <artifactId>powermock-api-easymock</artifactId>
+      <version>${powermock.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.powermock.modules</groupId>
+      <artifactId>powermock-module-junit4</artifactId>
+      <version>${powermock.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.powermock.modules</groupId>
+      <artifactId>powermock-module-junit4-common</artifactId>
+      <version>${powermock.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.powermock.reflect</groupId>
+      <artifactId>powermock-reflect</artifactId>
+      <version>${powermock.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>javassist</groupId>
+      <artifactId>javassist</artifactId>
+      <version>3.8.0.GA</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.objenesis</groupId>
+      <artifactId>objenesis</artifactId>
+      <version>1.1</version>
+      <scope>test</scope>
+    </dependency>
+  	<dependency>
+  		<groupId>org.easymock</groupId>
+  		<artifactId>easymockclassextension</artifactId>
+  		<version>2.4</version>
   	</dependency>
   </dependencies>
 </project>

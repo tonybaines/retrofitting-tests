@@ -1,16 +1,14 @@
 package com.bt.anonymous;
 
-import java.io.*;
-import java.util.*;
-import java.util.logging.Level;
+import javax.jms.Queue;
+import javax.jms.QueueConnection;
+import javax.jms.QueueConnectionFactory;
+import javax.jms.QueueSender;
+import javax.jms.QueueSession;
+import javax.jms.Session;
+import javax.jms.TextMessage;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.naming.*;
-import javax.jms.*;
-import javax.xml.parsers.ParserConfigurationException;
 import org.apache.log4j.Logger;
-import org.apache.openejb.jee.MessageDrivenBean;
 
 public class XMLSender {
 
