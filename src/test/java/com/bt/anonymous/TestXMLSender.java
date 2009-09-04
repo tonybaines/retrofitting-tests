@@ -13,26 +13,22 @@ public class TestXMLSender {
 		// XMLSender sender = new XMLSender(null, null, null, null);
 		// 2. Use a subclass to stub out the sendMessage() method
 		// XMLSender sender = new StubbedXMLSender(null, null, null, null);
-		// 3. Add some assertions to check the important behaviour
+		// 3. Add some assertions to check the significant behaviour
 		StubbedXMLSender sender = new StubbedXMLSender(null, null, null, null);
 		assertTrue(sender.wasSendMessageCalled);
 	}
-
-	private class StubbedXMLSender extends XMLSender {
-		public boolean wasSendMessageCalled;
-		StubbedXMLSender(Logger logger, String text, String messageID,
-				String senderflag) {
-			super(logger, text, messageID, senderflag);
-		}
-
-		/*
-		 * Override the sendMessage() method to allow the constructor to be tested
-		 * on it's own
-		 */
-		@Override
-		public void sendMessage(String text, String messageID, String senderflag) {
-			this.wasSendMessageCalled = true;
-		}
+	
+	// Go with the simplest happy path scenario to begin with
+	@Test
+	public void shouldSendtheSuppliedMessageToTheResponseQueueByDefault() {
+		// Simple string parameters - guess at values
+		String text = "Test message";
+		String messageID = "TEST-MESSAGE-ID";
+		String senderFlag = "";
+		// An easy class to get a suitable instance
+		Logger logger = org.apache.log4j.LogManager.getLogger("TEST-LOGGER");
+		new XMLSender(logger, text, messageID, senderFlag);
+		// 1. Run as is to check for hidden dependencies
 		
 	}
 }

@@ -13,12 +13,10 @@ public class JNDILookup {
 	}
 
 	public Queue getQueue(String responseQueue) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public QueueConnectionFactory getQueueConnectionFactory(String jmsFactory) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

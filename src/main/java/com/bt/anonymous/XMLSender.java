@@ -34,20 +34,17 @@ public class XMLSender {
 		try {
 
 			queueConnectionFactory = serviceProvider
-					.getQueueConnectionFactory(MessageDrivenBean.JMS_FACTORY);
+			.getQueueConnectionFactory(MessageDrivenBean.JMS_FACTORY);
 
-			if (senderflag.equals("REDIRECT"))
-
+			if (senderflag.equals("REDIRECT")) {
 				queue = serviceProvider
-						.getQueue(MessageDrivenBean.REDIRECT_QUEUE);
-
-			else
-
-				queue = serviceProvider
-						.getQueue(MessageDrivenBean.RESPONSE_QUEUE);
-
+				.getQueue(MessageDrivenBean.REDIRECT_QUEUE);
+			}
+			else {
+				queue = serviceProvider.getQueue(MessageDrivenBean.RESPONSE_QUEUE);
+			}
+			
 			queueConnection = queueConnectionFactory.createQueueConnection();
-
 			queueSession = queueConnection.createQueueSession(false,
 					Session.AUTO_ACKNOWLEDGE);
 
@@ -63,41 +60,26 @@ public class XMLSender {
 			if (senderflag.equals("REDIRECT")) {
 				logger.info("Request XML sent to " + MessageDrivenBean.REDIRECT_QUEUE);
 
-			} else
+			} else {
 				logger.info("Response XML sent to " + MessageDrivenBean.RESPONSE_QUEUE);
+			}
 		}
-
 		catch (Exception e) {
-
 			logger.info("Unable to send message to the Queue");
-
 			logger.error(e.getMessage());
-
 			MessageDrivenBean.sendMail(e.getMessage());
-
 		}
-
 		finally
-
 		{
 			try {
-
-				if (queueSession != null)
-					queueSession.close();
-
-				if (queueConnection != null)
-					queueConnection.close();
-
+				if (queueSession != null) queueSession.close();
+				if (queueConnection != null) queueConnection.close();
 			}
-
 			catch (Exception e)
-
 			{
 				logger.error(e.getMessage());
 			}
-
 		}
-
 	}
 
 }
