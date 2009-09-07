@@ -5,6 +5,7 @@ import static org.easymock.EasyMock.anyInt;
 import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.expect;
 import static org.junit.Assert.assertTrue;
+import static org.powermock.api.easymock.PowerMock.createMock;
 import static org.powermock.api.easymock.PowerMock.createNiceMock;
 import static org.powermock.api.easymock.PowerMock.mockStatic;
 import static org.powermock.api.easymock.PowerMock.replay;
@@ -18,6 +19,7 @@ import javax.jms.QueueConnectionFactory;
 import javax.jms.QueueSender;
 import javax.jms.QueueSession;
 import javax.jms.TextMessage;
+import javax.naming.NamingException;
 
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Logger;
@@ -30,7 +32,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(JNDILookup.class)
+@PrepareForTest({JNDILookup.class, MessageDrivenBean.class})
 public class TestXMLSender {
 
 	private QueueSender mockQSndr;
@@ -61,7 +63,7 @@ public class TestXMLSender {
 	
 	// Go with the simplest happy path scenario to begin with
 	@Test
-	public void shouldSendtheSuppliedMessage() throws JMSException {
+	public void shouldSendtheSuppliedMessage() throws JMSException, NamingException {
 		setMockExpectations(this.text, this.messageID, null); 
 		new XMLSender(LOGGER, this.text, this.messageID, this.senderFlag);
 		verifyMockExpectations();
@@ -69,16 +71,35 @@ public class TestXMLSender {
 	
 	// Add some more behaviour-checks
 	@Test
-	public void shouldRouteMessagesToTheResponseQueueByDefault() throws JMSException {
+	public void shouldRouteMessagesToTheResponseQueueByDefault() throws JMSException, NamingException {
 		setMockExpectations(this.text, this.messageID, MessageDrivenBean.RESPONSE_QUEUE); 
 		new XMLSender(LOGGER, this.text, this.messageID, this.senderFlag);
 		verifyMockExpectations();
 	}
 	@Test
-	public void shouldRouteMessagesToTheRedirectQueueWithTheAppropriateFlag() throws JMSException {
+	public void shouldRouteMessagesToTheRedirectQueueWithTheAppropriateFlag() throws JMSException, NamingException {
 		setMockExpectations(this.text, this.messageID, MessageDrivenBean.REDIRECT_QUEUE); 
 		new XMLSender(LOGGER, this.text, this.messageID, "REDIRECT");
 		verifyMockExpectations();
+	}
+	
+	// Look at the sad-path scenarios
+	@Test
+	public void shouldSendAnEmailWhenAnExceptionIsThrown() throws NamingException {
+		clearExistingExpectations();
+		mockStatic(JNDILookup.class);
+		mockStatic(MessageDrivenBean.class);
+		expect(MessageDrivenBean.sendMail("TEST-EXCEPTION")).andReturn(true);
+		this.mockJndiLookup = createMock(JNDILookup.class);
+		expect(this.mockJndiLookup.getQueueConnectionFactory((String) anyObject())).andThrow(new NamingException("TEST-EXCEPTION"));
+		expect(JNDILookup.getInstance()).andReturn(this.mockJndiLookup);
+		replay(this.mockJndiLookup);
+		replay(JNDILookup.class, MessageDrivenBean.class);
+		
+		new XMLSender(LOGGER, this.text, this.messageID, this.senderFlag);
+		
+		verify(this.mockJndiLookup);
+		verify(JNDILookup.class, MessageDrivenBean.class);
 	}
 
 	/*
@@ -93,9 +114,8 @@ public class TestXMLSender {
 	/*
 	 * Pulled out to a separate method for clarity and reuse
 	 */
-	private void setMockExpectations(String expectedMsgText, String expectedMsgID, String expectedDestination) throws JMSException {
+	private void setMockExpectations(String expectedMsgText, String expectedMsgID, String expectedDestination) throws JMSException, NamingException {
 		clearExistingExpectations();
-		mockStatic(JNDILookup.class);
 		
 		// Beware createNiceMock - it can save some effort but it can also mask
 		// problems with your expectations
@@ -121,6 +141,7 @@ public class TestXMLSender {
 		this.mockTextMsg.setStringProperty("messageId", expectedMsgID);
 		this.mockQSndr.send(this.mockTextMsg);
 		// Intercept the factory method and inject our mock(s)
+		mockStatic(JNDILookup.class);
 		expect(JNDILookup.getInstance()).andReturn(this.mockJndiLookup);
 		
 		// Get the mocks ready to use
@@ -130,6 +151,7 @@ public class TestXMLSender {
 
 	private void clearExistingExpectations() {
 		reset(JNDILookup.class);
+		reset(MessageDrivenBean.class);
 		safeReset(this.mockTextMsg, this.mockQSndr, this.mockJndiLookup);
 	}
 

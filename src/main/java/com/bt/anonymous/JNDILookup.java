@@ -2,6 +2,7 @@ package com.bt.anonymous;
 
 import javax.jms.Queue;
 import javax.jms.QueueConnectionFactory;
+import javax.naming.NamingException;
 
 /**
  * Just a simple implementation to let the project compile without the rest of the codebase
@@ -16,7 +17,7 @@ public class JNDILookup {
 		return null;
 	}
 
-	public QueueConnectionFactory getQueueConnectionFactory(String jmsFactory) {
+	public QueueConnectionFactory getQueueConnectionFactory(String jmsFactory) throws NamingException {
 		return null;
 	}
 
