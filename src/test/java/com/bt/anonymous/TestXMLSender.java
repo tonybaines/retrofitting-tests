@@ -26,6 +26,9 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @PrepareForTest(JNDILookup.class)
 public class TestXMLSender {
 
+	private QueueSender mockQSndr;
+	private TextMessage mockTextMsg;
+
 	@Test
 	public void shouldBeAbleToInstantiateAnXMLSender() {
 		// 1. First try all nulls in parameters - NPE since the constructor calls the sendMessage() method
@@ -52,16 +55,28 @@ public class TestXMLSender {
 		//     The serviceProvider (JNDILookup) provides the various collaborators - but
 		//     access is through a static factory method getInstance()
 		//     Standard mock frameworks won't help => PowerMock
+		
+		setMockExpectations(text, messageID); // Pulled out to a separate method for clarity and reuse
+
+		new XMLSender(logger, text, messageID, senderFlag);
+
+		// Check our expectations (for the mocks we care about)
+		verify(JNDILookup.class);
+		verify(mockQSndr, mockTextMsg);
+	}
+	
+	private void setMockExpectations(String expectedMsgText, String expectedMsgID) throws JMSException {
 		mockStatic(JNDILookup.class);
 		// "Unexpected method call getQueueConnectionFactory(null):" - do we care about these calls?
 		// JNDILookup mockJndiLookup = createMock(JNDILookup.class);
 		//  - not really, but we need to make sure we can sense the queueSender.send(textMessage);
 		JNDILookup mockJndiLookup = createNiceMock(JNDILookup.class);
+		
 		QueueConnectionFactory mockQCF = createNiceMock(QueueConnectionFactory.class);
 		QueueConnection mockQC = createNiceMock(QueueConnection.class);
 		QueueSession mockQS = createNiceMock(QueueSession.class);
-		QueueSender mockQSndr = createNiceMock(QueueSender.class);
-		TextMessage mockTextMsg = createNiceMock(TextMessage.class);
+		mockQSndr = createNiceMock(QueueSender.class);
+		mockTextMsg = createNiceMock(TextMessage.class);
 		
 		expect(mockJndiLookup.getQueueConnectionFactory(null)).andReturn(mockQCF);
 		expect(mockQCF.createQueueConnection()).andReturn(mockQC);
@@ -73,23 +88,14 @@ public class TestXMLSender {
 		//  (so long as verify() is called)
 		// First try it out with a bad value
 		// mockTextMsg.setText("rubbish");
-		mockTextMsg.setText(text);
-		mockTextMsg.setStringProperty("messageId", messageID);
+		mockTextMsg.setText(expectedMsgText);
+		mockTextMsg.setStringProperty("messageId", expectedMsgID);
 		mockQSndr.send(mockTextMsg);
-		
-		replay(mockQCF, mockQC, mockQS, mockQSndr, mockTextMsg);
-		
 		// Intercept the factory method and inject our mock(s)
 		expect(JNDILookup.getInstance()).andReturn(mockJndiLookup);
 		
 		// Get the mocks ready to use
+		replay(mockQCF, mockQC, mockQS, mockQSndr, mockTextMsg);
 		replay(JNDILookup.class, mockJndiLookup);
-
-		new XMLSender(logger, text, messageID, senderFlag);
-
-		// Check our expectations
-		verify(JNDILookup.class);
-		verify(mockJndiLookup);
-		verify(mockQCF, mockQC, mockQS, mockQSndr, mockTextMsg);
 	}
 }
