@@ -1,7 +1,8 @@
 package com.bt.anonymous;
 
 /*
- * In real life this is an enterprise EJB with an interesting extra method 
+ * In real life this is an enterprise EJB with an interesting extra method, a 
+ * simple implementation here to reduce the noise.
  */
 public class MessageDrivenBean {
 
