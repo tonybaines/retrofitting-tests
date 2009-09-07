@@ -5,9 +5,9 @@ package com.bt.anonymous;
  */
 public class MessageDrivenBean {
 
-	public static final String JMS_FACTORY = null;
-	public static final String REDIRECT_QUEUE = null;
-	public static final String RESPONSE_QUEUE = null;
+	public static final String JMS_FACTORY = "TEST-JMS-FACTORY";
+	public static final String REDIRECT_QUEUE = "TEST-REDIRECT-QUEUE";
+	public static final String RESPONSE_QUEUE = "TEST-RESPONSE-QUEUE";
 	public static boolean sendMail(String message) {
 		try
 		{                                                                

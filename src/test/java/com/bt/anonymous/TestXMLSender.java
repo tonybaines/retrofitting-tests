@@ -36,6 +36,10 @@ public class TestXMLSender {
 	private QueueSender mockQSndr;
 	private TextMessage mockTextMsg;
 	private static final Logger LOGGER = org.apache.log4j.LogManager.getLogger("TEST-LOGGER");
+	private String text = "Test message";
+	private String messageID = "TEST-MESSAGE-ID";
+	private String senderFlag = "";
+	private JNDILookup mockJndiLookup;
 	
 	@BeforeClass
 	public static void initialise() {
@@ -58,24 +62,22 @@ public class TestXMLSender {
 	// Go with the simplest happy path scenario to begin with
 	@Test
 	public void shouldSendtheSuppliedMessage() throws JMSException {
-		// Simple string parameters - guess at values
-		String text = "Test message";
-		String messageID = "TEST-MESSAGE-ID";
-		String senderFlag = "";
-		setMockExpectations(text, messageID, (String)anyObject()); 
-		new XMLSender(LOGGER, text, messageID, senderFlag);
+		setMockExpectations(this.text, this.messageID, null); 
+		new XMLSender(LOGGER, this.text, this.messageID, this.senderFlag);
 		verifyMockExpectations();
 	}
 	
 	// Add some more behaviour-checks
 	@Test
 	public void shouldRouteMessagesToTheResponseQueueByDefault() throws JMSException {
-		// Simple string parameters - guess at values
-		String text = "Test message";
-		String messageID = "TEST-MESSAGE-ID";
-		String senderFlag = "";
-		setMockExpectations((String)anyObject(), (String)anyObject(), MessageDrivenBean.RESPONSE_QUEUE); 
-		new XMLSender(LOGGER, text, messageID, senderFlag);
+		setMockExpectations(this.text, this.messageID, MessageDrivenBean.RESPONSE_QUEUE); 
+		new XMLSender(LOGGER, this.text, this.messageID, this.senderFlag);
+		verifyMockExpectations();
+	}
+	@Test
+	public void shouldRouteMessagesToTheRedirectQueueWithTheAppropriateFlag() throws JMSException {
+		setMockExpectations(this.text, this.messageID, MessageDrivenBean.REDIRECT_QUEUE); 
+		new XMLSender(LOGGER, this.text, this.messageID, "REDIRECT");
 		verifyMockExpectations();
 	}
 
@@ -85,6 +87,7 @@ public class TestXMLSender {
 	private void verifyMockExpectations() {
 		verify(this.mockQSndr);
 		verify(this.mockTextMsg);
+		verify(this.mockJndiLookup);
 	}
 	
 	/*
@@ -93,42 +96,41 @@ public class TestXMLSender {
 	private void setMockExpectations(String expectedMsgText, String expectedMsgID, String expectedDestination) throws JMSException {
 		clearExistingExpectations();
 		mockStatic(JNDILookup.class);
-		// "Unexpected method call getQueueConnectionFactory(null):" - do we care about these calls?
-		// JNDILookup mockJndiLookup = createMock(JNDILookup.class);
-		//  - not really, but we need to make sure we can sense the queueSender.send(textMessage);
-		JNDILookup mockJndiLookup = createNiceMock(JNDILookup.class);
 		
+		// Beware createNiceMock - it can save some effort but it can also mask
+		// problems with your expectations
+		this.mockJndiLookup = createNiceMock(JNDILookup.class);
 		QueueConnectionFactory mockQCF = createNiceMock(QueueConnectionFactory.class);
 		QueueConnection mockQC = createNiceMock(QueueConnection.class);
 		QueueSession mockQS = createNiceMock(QueueSession.class);
 		this.mockQSndr = createNiceMock(QueueSender.class);
 		this.mockTextMsg = createNiceMock(TextMessage.class);
 		
-		expect(mockJndiLookup.getQueue(expectedDestination)).andStubReturn(null);
-		expect(mockJndiLookup.getQueueConnectionFactory(null)).andStubReturn(mockQCF);
-		expect(mockQCF.createQueueConnection()).andStubReturn(mockQC);
-		expect(mockQC.createQueueSession(anyBoolean(), anyInt())).andStubReturn(mockQS);
-		expect(mockQS.createTextMessage()).andStubReturn(this.mockTextMsg);
-		expect(mockQS.createSender((Queue) anyObject())).andStubReturn(this.mockQSndr);
+		expect(this.mockJndiLookup.getQueueConnectionFactory((String) anyObject())).andReturn(mockQCF);
+		expect(mockQCF.createQueueConnection()).andReturn(mockQC);
+		expect(mockQC.createQueueSession(anyBoolean(), anyInt())).andReturn(mockQS);
+		expect(mockQS.createTextMessage()).andReturn(this.mockTextMsg);
+		expect(mockQS.createSender((Queue) anyObject())).andReturn(this.mockQSndr);
 		
 		// Finally, something we care about - these are assertions about behaviour 
 		//  (so long as verify() is called)
 		// First try it out with a bad value
 		// mockTextMsg.setText("rubbish");
+		expect(this.mockJndiLookup.getQueue(expectedDestination != null ? expectedDestination:(String)anyObject())).andReturn(null);
 		this.mockTextMsg.setText(expectedMsgText);
 		this.mockTextMsg.setStringProperty("messageId", expectedMsgID);
 		this.mockQSndr.send(this.mockTextMsg);
 		// Intercept the factory method and inject our mock(s)
-		expect(JNDILookup.getInstance()).andReturn(mockJndiLookup);
+		expect(JNDILookup.getInstance()).andReturn(this.mockJndiLookup);
 		
 		// Get the mocks ready to use
-		replay(mockQCF, mockQC, mockQS, this.mockQSndr, this.mockTextMsg);
-		replay(JNDILookup.class, mockJndiLookup);
+		replay(mockQCF, mockQC, mockQS, this.mockQSndr, this.mockTextMsg, this.mockJndiLookup);
+		replay(JNDILookup.class);
 	}
 
 	private void clearExistingExpectations() {
 		reset(JNDILookup.class);
-		safeReset(this.mockTextMsg,this.mockQSndr);
+		safeReset(this.mockTextMsg, this.mockQSndr, this.mockJndiLookup);
 	}
 
 	private void safeReset(Object ...mocks) {

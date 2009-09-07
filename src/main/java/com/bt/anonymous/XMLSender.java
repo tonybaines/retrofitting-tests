@@ -65,8 +65,7 @@ public class XMLSender {
 			}
 		}
 		catch (Exception e) {
-			logger.info("Unable to send message to the Queue");
-			logger.error(e.getMessage());
+			logger.info("Unable to send message to the Queue",e);
 			MessageDrivenBean.sendMail(e.getMessage());
 		}
 		finally
