@@ -69,7 +69,7 @@ public class TestXMLSender {
 	
 	// Add some more behaviour-checks
 	@Test
-	public void shouldRouteMessagesToTheresponseQueueByDefault() throws JMSException {
+	public void shouldRouteMessagesToTheResponseQueueByDefault() throws JMSException {
 		// Simple string parameters - guess at values
 		String text = "Test message";
 		String messageID = "TEST-MESSAGE-ID";
