@@ -11,7 +11,7 @@
   
   <dependencies>
   	<dependency>
-  		<groupId>jms</groupId>
+  		<groupId>javax.jms</groupId>
   		<artifactId>jms</artifactId>
   		<version>1.1</version>
   	</dependency>
@@ -21,51 +21,9 @@
   		<version>1.2.14</version>
   	</dependency>
   	<dependency>
-      <groupId>org.powermock</groupId>
-      <artifactId>powermock-core</artifactId>
-      <version>${powermock.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.powermock.api</groupId>
-      <artifactId>powermock-api-easymock</artifactId>
-      <version>${powermock.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.powermock.modules</groupId>
-      <artifactId>powermock-module-junit4</artifactId>
-      <version>${powermock.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.powermock.modules</groupId>
-      <artifactId>powermock-module-junit4-common</artifactId>
-      <version>${powermock.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.powermock.reflect</groupId>
-      <artifactId>powermock-reflect</artifactId>
-      <version>${powermock.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>javassist</groupId>
-      <artifactId>javassist</artifactId>
-      <version>3.8.0.GA</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.objenesis</groupId>
-      <artifactId>objenesis</artifactId>
-      <version>1.1</version>
-      <scope>test</scope>
-    </dependency>
-  	<dependency>
-  		<groupId>org.easymock</groupId>
-  		<artifactId>easymockclassextension</artifactId>
-  		<version>2.4</version>
+  		<groupId>org.mockito</groupId>
+  		<artifactId>mockito-all</artifactId>
+  		<version>1.8.0</version>
   	</dependency>
   </dependencies>
 </project>
