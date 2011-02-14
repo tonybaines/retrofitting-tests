@@ -1,4 +1,7 @@
+~*
+build
+.clover
+.gradle
+lib
 target/classes/*
 target/test-classes/*
-.clover
-~*

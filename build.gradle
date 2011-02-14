@@ -1,0 +1,23 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+repositories {
+    flatDir name: 'localRepository', dirs: 'lib'
+    mavenRepo urls: "https://collaborate.bt.com/artefacts/content/groups/public"
+    mavenCentral()
+}
+
+dependencies {
+  testRuntime "org.apache.openejb:javaee-api:5.0-2",
+              "log4j:log4j:1.2.14",
+              "org.easymock:easymock:3.0",
+              "org.powermock:powermock-module-junit4:1.4.7",
+              "org.powermock:powermock-api-easymock:1.4.7",
+              "junit:junit:4.8"
+}
+
+task copyToLib(type: Copy) {
+    into "lib"
+    from configurations.testRuntime
+}
