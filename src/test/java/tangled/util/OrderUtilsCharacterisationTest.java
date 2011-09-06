@@ -3,7 +3,8 @@ package tangled.util;
 import org.junit.*;
 import tangled.model.OrderHeader;
 
-import java.util.Collection;
+import java.util.List;
+import java.util.HashMap;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
@@ -17,16 +18,16 @@ public class OrderUtilsCharacterisationTest {
 
   @Test
   public void callingMergeHeadersWithAnEmptyOrderHeaderListShouldReturnNull() throws Exception {
-    assertThat(OrderUtils.mergeHeaders(OrderHeaderFixture.emptyListOfOrderHeaders(), null),
+    assertThat(OrderUtils.mergeHeaders(new OrderHeaderFixture().withAnEmptyListOfOrderHeaders(), null),
                is(nullValue()));
   }
 
   @Test
   public void passingJustASingleOrderHeaderToMergeHeadersShouldReturnWHAT() throws Exception {
-    Collection<OrderHeader> orderHeaders = OrderHeaderFixture.listOfOrderHeaders()
-                                                             .
-                                                             .build();
-    assertThat(OrderUtils.mergeHeaders(orderHeaders, null), is(not(nullValue())));
+    List<OrderHeader> orderHeaders = new OrderHeaderFixture().withAHeaderForProduct("TEST-PRODUCT")
+                                                                   .build();
+    
+    assertThat(OrderUtils.mergeHeaders(orderHeaders, new HashMap<String, OrderHeader>()), is(new OrderHeader("merged-for-tree")));
   }
 
 }
