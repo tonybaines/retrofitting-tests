@@ -23,9 +23,9 @@ public class OrderUtilsCharacterisationTest {
   }
 
   @Test
-  public void passingJustASingleOrderHeaderToMergeHeadersShouldReturnWHAT() throws Exception {
+  public void passingJustASingleOrderHeaderToMergeHeadersShouldReturnASingleMergedHeader() throws Exception {
     List<OrderHeader> orderHeaders = new OrderHeaderFixture().withAHeaderForProduct("TEST-PRODUCT")
-                                                                   .build();
+                                                             .build();
     
     assertThat(OrderUtils.mergeHeaders(orderHeaders, new HashMap<String, OrderHeader>()), is(new OrderHeader("merged-for-tree")));
   }
