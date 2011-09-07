@@ -8,11 +8,11 @@ import tangled.model.ProductSelection;
 
 public class OrderSiteFixture {
 
-  private String siteName;
+  private String siteId;
   private Map<String, ProductSelection> products = new HashMap<String, ProductSelection>();
 
-  public OrderSiteFixture forSite(String siteName) {
-    this.siteName = siteName;
+  public OrderSiteFixture forSite(String siteId) {
+    this.siteId = siteId;
     return this;
   }
 
@@ -25,7 +25,7 @@ public class OrderSiteFixture {
     final OrderSiteDetail orderSiteDetail = new OrderSiteDetail();
     orderSiteDetail.setProductSelections(products);
     return new HashMap<String, OrderSiteDetail>() {{
-      put(siteName, orderSiteDetail);
+      put(siteId, orderSiteDetail);
     }};
   }
 
