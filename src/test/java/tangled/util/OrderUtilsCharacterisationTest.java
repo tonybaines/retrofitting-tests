@@ -1,13 +1,17 @@
 package tangled.util;
 
-import org.junit.*;
-import tangled.model.OrderHeader;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.junit.Assert.assertThat;
 
-import java.util.List;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import org.junit.Test;
+
+import tangled.model.OrderHeader;
+import tangled.model.OrderSiteDetail;
 
 public class OrderUtilsCharacterisationTest {
 
@@ -22,6 +26,12 @@ public class OrderUtilsCharacterisationTest {
                is(nullValue()));
   }
 
+  
+  /*
+   * Try with a single header, assert something (NPE => needs a map for 2nd param)
+   * Add the header, test fails
+   * Fix the assertion to match reality
+   */
   @Test
   public void passingJustASingleOrderHeaderToMergeHeadersShouldReturnASingleMergedHeader() throws Exception {
     List<OrderHeader> orderHeaders = new OrderHeaderFixture().withAHeaderForProduct("TEST-PRODUCT")
@@ -29,5 +39,18 @@ public class OrderUtilsCharacterisationTest {
     
     assertThat(OrderUtils.mergeHeaders(orderHeaders, new HashMap<String, OrderHeader>()), is(new OrderHeader("merged-for-tree")));
   }
+  
+  @SuppressWarnings("unchecked")
+  @Test
+  public void passingASingleHeaderWithSiteDetailsShouldReturnAMergedHeaderWithTheSiteDetails() throws Exception {
+    Map<String, OrderSiteDetail> siteDetails = new OrderSiteFixture().forSite("site1")
+                                                                     .withProduct("prod1", "detail1")
+                                                                     .build();
+    List<OrderHeader> orderHeaders = new OrderHeaderFixture().withAHeaderForProduct("TEST-PRODUCT", siteDetails)
+                                                             .build();
+
+    assertThat(OrderUtils.mergeHeaders(orderHeaders, new HashMap<String, OrderHeader>()), is(OrderHeaderMatcher.aHeaderMatching("merged-for-tree", siteDetails)));
+  }
+  
 
 }

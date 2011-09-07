@@ -4,6 +4,7 @@ import tangled.model.OrderHeader;
 import tangled.model.OrderSiteDetail;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,9 +19,13 @@ public class OrderHeaderFixture {
     return this.headersCollection;
   }
 
-  public OrderHeaderFixture withAHeaderForProduct(String productName, Map<String, OrderSiteDetail> orderSiteDetails) {
+  public OrderHeaderFixture withAHeaderForProduct(String productName, Map<String, OrderSiteDetail> ...orderSiteDetails) {
     OrderHeader header = new OrderHeader(productName);
-    header.setOrderSiteDetails(orderSiteDetails);
+    Map<String, OrderSiteDetail> mergedOrderSiteDetails = new HashMap<String, OrderSiteDetail>();
+    for (Map<String, OrderSiteDetail> orderSiteDetail : orderSiteDetails) {
+      mergedOrderSiteDetails.putAll(orderSiteDetail);
+    }
+    header.setOrderSiteDetails(mergedOrderSiteDetails);
     headersCollection.add(header);
     return this;
   }

@@ -20,4 +20,9 @@ public class OrderSiteDetail implements java.io.Serializable {
 			Map<String, ProductSelection> productSelections) {
 		this.productSelections = productSelections;
 	}
+
+  @Override
+  public String toString() {
+    return "OrderSiteDetail [productSelections=" + productSelections + "]";
+  }
 }
