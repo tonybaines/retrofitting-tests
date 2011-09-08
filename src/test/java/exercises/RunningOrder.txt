@@ -1,0 +1,7 @@
+In rough increasing order of complexity
+    1. Subclass and override method (warm-up with solution)
+    2. Expose static method
+    3. Parameterise constructor
+    4. Extract and override call
+    5. Introduce static setter
+    6. Adapt parameter
