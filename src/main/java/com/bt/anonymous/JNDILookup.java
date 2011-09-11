@@ -11,15 +11,15 @@ import javax.naming.NamingException;
 public class JNDILookup {
 
 	public static JNDILookup getInstance() {
-		return new JNDILookup();
+		throw new UnsupportedOperationException("Nope, sorry.  This is too complex for a test");
 	}
 
 	public Queue getQueue(String responseQueue) throws NamingException {
-		return null;
+		throw new UnsupportedOperationException("Nope, sorry.  This is too complex for a test");
 	}
 
 	public QueueConnectionFactory getQueueConnectionFactory(String jmsFactory) throws NamingException {
-		return null;
+		throw new UnsupportedOperationException("Nope, sorry.  This is too complex for a test");
 	}
 
 }

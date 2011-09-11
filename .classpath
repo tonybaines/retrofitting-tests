@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" path="src/test/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER" exported="true"/>
+	<classpathentry sourcepath="C:/Users/802661379/.gradle/cache/org.easymock/easymock/sources/easymock-3.0-sources.jar" kind="lib" path="C:/Users/802661379/.gradle/cache/org.easymock/easymock/jars/easymock-3.0.jar" exported="true"/>
+	<classpathentry sourcepath="C:/Users/802661379/.gradle/cache/org.apache.openejb/javaee-api/sources/javaee-api-5.0-2-sources.jar" kind="lib" path="C:/Users/802661379/.gradle/cache/org.apache.openejb/javaee-api/jars/javaee-api-5.0-2.jar" exported="true"/>
+	<classpathentry sourcepath="C:/Users/802661379/.gradle/cache/org.powermock/powermock-core/sources/powermock-core-1.4.7-sources.jar" kind="lib" path="C:/Users/802661379/.gradle/cache/org.powermock/powermock-core/jars/powermock-core-1.4.7.jar" exported="true"/>
+	<classpathentry sourcepath="C:/Users/802661379/.gradle/cache/org.powermock/powermock-module-junit4-common/sources/powermock-module-junit4-common-1.4.7-sources.jar" kind="lib" path="C:/Users/802661379/.gradle/cache/org.powermock/powermock-module-junit4-common/jars/powermock-module-junit4-common-1.4.7.jar" exported="true"/>
+	<classpathentry sourcepath="C:/Users/802661379/.gradle/cache/org.powermock/powermock-api-easymock/sources/powermock-api-easymock-1.4.7-sources.jar" kind="lib" path="C:/Users/802661379/.gradle/cache/org.powermock/powermock-api-easymock/jars/powermock-api-easymock-1.4.7.jar" exported="true"/>
+	<classpathentry sourcepath="C:/Users/802661379/.gradle/cache/log4j/log4j/sources/log4j-1.2.14-sources.jar" kind="lib" path="C:/Users/802661379/.gradle/cache/log4j/log4j/jars/log4j-1.2.14.jar" exported="true"/>
+	<classpathentry sourcepath="C:/Users/802661379/.gradle/cache/cglib/cglib-nodep/sources/cglib-nodep-2.2-sources.jar" kind="lib" path="C:/Users/802661379/.gradle/cache/cglib/cglib-nodep/jars/cglib-nodep-2.2.jar" exported="true"/>
+	<classpathentry sourcepath="C:/Users/802661379/.gradle/cache/org.powermock/powermock-module-junit4/sources/powermock-module-junit4-1.4.7-sources.jar" kind="lib" path="C:/Users/802661379/.gradle/cache/org.powermock/powermock-module-junit4/jars/powermock-module-junit4-1.4.7.jar" exported="true"/>
+	<classpathentry sourcepath="C:/Users/802661379/.gradle/cache/org.javassist/javassist/sources/javassist-3.14.0-GA-sources.jar" kind="lib" path="C:/Users/802661379/.gradle/cache/org.javassist/javassist/jars/javassist-3.14.0-GA.jar" exported="true"/>
+	<classpathentry sourcepath="C:/Users/802661379/.gradle/cache/org.powermock/powermock-reflect/sources/powermock-reflect-1.4.7-sources.jar" kind="lib" path="C:/Users/802661379/.gradle/cache/org.powermock/powermock-reflect/jars/powermock-reflect-1.4.7.jar" exported="true"/>
+	<classpathentry sourcepath="C:/Users/802661379/.gradle/cache/junit/junit/sources/junit-4.8.2-sources.jar" kind="lib" path="C:/Users/802661379/.gradle/cache/junit/junit/jars/junit-4.8.2.jar" exported="true"/>
+	<classpathentry sourcepath="C:/Users/802661379/.gradle/cache/org.powermock/powermock-api-support/sources/powermock-api-support-1.4.7-sources.jar" kind="lib" path="C:/Users/802661379/.gradle/cache/org.powermock/powermock-api-support/jars/powermock-api-support-1.4.7.jar" exported="true"/>
+	<classpathentry sourcepath="C:/Users/802661379/.gradle/cache/org.objenesis/objenesis/sources/objenesis-1.2-sources.jar" kind="lib" path="C:/Users/802661379/.gradle/cache/org.objenesis/objenesis/jars/objenesis-1.2.jar" exported="true"/>
+</classpath>

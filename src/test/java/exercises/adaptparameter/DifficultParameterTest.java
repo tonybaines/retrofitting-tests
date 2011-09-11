@@ -3,7 +3,7 @@ package exercises.adaptparameter;
 import org.junit.Test;
 
 /**
- * Adapt Parameter: user the Adaptor [GoF] pattern to extract an interface for the 
+ * Adapt Parameter: use the Adaptor [GoF] pattern to extract an interface for the 
  * difficult parameter(s) defining just the subset of methods that are used in the
  * production code.
  * 
