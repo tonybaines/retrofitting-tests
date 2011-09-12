@@ -14,7 +14,7 @@ dependencies {
               "org.easymock:easymock:3.0",
               "org.powermock:powermock-module-junit4:1.4.7",
               "org.powermock:powermock-api-easymock:1.4.7",
-              "junit:junit:4.8"
+              "junit:junit:4.8.2"
 }
 
 task copyToLib(type: Copy) {
